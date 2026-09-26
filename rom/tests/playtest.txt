@@ -1,0 +1,28 @@
+# OOTW SMS cutscene viewer - final playtest
+# menu renders; scene 4 (MUTATION) plays; button 2 aborts to menu;
+# scene 15 (PASSWORD) plays with correct parse invariants.
+run 90
+expectcolors 2
+screenshot 01_menu
+# deterministic play trigger (g_autoplay = scene index + 1)
+symbols rom/code.noi
+poke _g_autoplay 4 w1
+run 300
+print _g_firstdid w2
+print _g_firstcell w2
+screenshot 03_scene
+run 400
+screenshot 04_scene2
+# abort with button 2 (held), expect menu return
+hold 2
+run 8
+hold none
+run 40
+print _g_whybreak w2
+expectcolors 2
+screenshot 05_menu_back
+# password scene: parse invariants
+poke _g_autoplay 15 w1
+run 350
+print _g_firstdid w2
+screenshot 06_password
